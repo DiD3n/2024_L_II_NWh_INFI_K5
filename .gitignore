@@ -1,0 +1,9 @@
+
+# IDE / Python stuff
+.code
+.idea
+venv
+.venv
+
+# cache
+**/__pycache__/**
