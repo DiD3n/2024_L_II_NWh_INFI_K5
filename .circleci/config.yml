@@ -1,0 +1,33 @@
+version: 2.1
+orbs:
+  python: circleci/python@3.12
+
+jobs:
+  build_and_test: # this can be any name you choose
+    executor: python/default
+    steps:
+      - checkout
+      - run:
+          name: Install requirements
+          command: pip install requirements.txt
+      - run:
+          name: Install test test_requirements
+          command: pip install test_requirements.txt
+      - run:
+          name: Run tests
+          command: PYTHONPATH=. py.test --verbose -s
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - .
+
+workflows:
+  test_my_app:
+    jobs:
+      - build_and_test
+      - deploy:
+          requires:
+            - build_and_test # only deploy if the build_and_test job has completed
+          filters:
+            branches:
+              only: main # only deploy when on main
