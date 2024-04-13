@@ -4,11 +4,14 @@ jobs:
   build-and-test:
     machine:
       image: ubuntu-2004:202104-01
+      docker_layer_caching: true
 
     steps:
       - checkout
       - run: make install
       - run: make test       
+      - run: make docker_build
+      - run: make docker_publish
 
 workflows:
   basic:
